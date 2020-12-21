@@ -1,25 +1,45 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Email from './components/Email';
+import Header from './components/Header';
+import Show from './components/Show';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  state = {
+    userDetails: [{}]
+  }
+
+  addDetails = (firstName, secondName, emailAddress) =>{
+    let currentUserDetails = this.state.userDetails
+    currentUserDetails.push({firstName:firstName, secondName:secondName, emailAddress:emailAddress})
+    this.setState({userDetails: currentUserDetails})
+  }
+
+  render() {  
+    return (  
+        <div className="App">
+          <Header />
+          <div>
+            <Email
+              addDetailsClicked={this.addDetails}
+            />
+            {
+              this.state.userDetails.map((element, index) => {   
+                return <Show
+                key={index}
+                firstName={element.firstName}
+                secondName={element.secondName}
+                emailAddress={element.emailAddress}/>
+              })
+            }
+            
+          </div>
+        </div>
+    );
+  }
 }
+
+
 
 export default App;
